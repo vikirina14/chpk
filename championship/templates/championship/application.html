@@ -1,0 +1,92 @@
+{% extends "championship/base.html" %}
+{% block title %}Подать заявку - {{ site.title }}{% endblock %}
+{% block description %}Форма регистрации команды для участия{% endblock %}
+{% block content %}
+<section class="hero-3d" style="background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9));">
+    <div class="container"><div class="hero-content"><div class="hero-tag"><i class="fas fa-file-signature"></i> Регистрация команды</div><h1 class="text-3d"><span class="text-3d-layer">ПОДАТЬ</span><span class="text-3d-layer accent">ЗАЯВКУ</span></h1><p class="hero-subtitle">Заполните форму для участия в I Региональном Чемпионате молодых мастеров</p></div></div>
+</section>
+<section class="application-section">
+    <div class="container">
+        <div class="application-steps">
+            <div class="step active"><div class="step-number">1</div><div class="step-label">Данные наставника</div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-label">Информация о команде</div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-label">Документы</div></div>
+            <div class="step"><div class="step-number">4</div><div class="step-label">Подтверждение</div></div>
+        </div>
+        <form id="championshipForm" class="application-form glass-card" method="POST" action="process_application.php" enctype="multipart/form-data">
+            <div class="form-section active" id="section1">
+                <h2 class="form-title"><i class="fas fa-user-tie"></i> Информация о наставнике</h2>
+                <p class="form-subtitle">Лицо, сопровождающее команду на всех этапах чемпионата</p>
+                <div class="form-grid">
+                    <div class="form-group"><label for="mentor_name"><i class="fas fa-user"></i> ФИО наставника *</label><input type="text" id="mentor_name" name="mentor_name" required placeholder="Иванов Иван Иванович"><div class="form-hint">Полное ФИО без сокращений</div></div>
+                    <div class="form-group"><label for="mentor_position"><i class="fas fa-briefcase"></i> Должность *</label><input type="text" id="mentor_position" name="mentor_position" required placeholder="Педагог дополнительного образования"></div>
+                    <div class="form-group"><label for="organization"><i class="fas fa-university"></i> Образовательная организация *</label><input type="text" id="organization" name="organization" required placeholder="МБОУ СОШ №1 г. Чебоксары"></div>
+                    <div class="form-group"><label for="mentor_phone"><i class="fas fa-phone"></i> Контактный телефон *</label><input type="tel" id="mentor_phone" name="mentor_phone" required placeholder="+7 (900) 123-45-67"></div>
+                    <div class="form-group"><label for="mentor_email"><i class="fas fa-envelope"></i> Электронная почта *</label><input type="email" id="mentor_email" name="mentor_email" required placeholder="example@mail.ru"></div>
+                </div>
+                <div class="form-actions"><button type="button" class="btn-next" onclick="nextSection(1)">Далее <i class="fas fa-arrow-right"></i></button></div>
+            </div>
+            <div class="form-section" id="section2">
+                <h2 class="form-title"><i class="fas fa-users"></i> Информация о команде</h2>
+                <div class="form-grid">
+                    <div class="form-group"><label for="competence"><i class="fas fa-cogs"></i> Компетенция *</label><select id="competence" name="competence" required><option value="">-- Выберите компетенцию --</option>{% for name, comp in competencies.items %}<option value="{{ name }}" {% if selected_competence == name %}selected{% endif %}>{{ name }} ({{ comp.ages_join }})</option>{% endfor %}</select></div>
+                    <div class="form-group"><label for="age_category"><i class="fas fa-child"></i> Возрастная категория *</label><select id="age_category" name="age_category" required><option value="">-- Выберите категорию --</option><option value="ДОУ">Воспитанники ДОУ (5-7 лет)</option><option value="1-4 класс">Обучающиеся 1-4 классов</option><option value="5-8 класс">Обучающиеся 5-8 классов</option></select></div>
+                    <div class="form-group"><label for="team_size"><i class="fas fa-user-friends"></i> Количество участников *</label><input type="number" id="team_size" name="team_size" min="1" max="10" required placeholder="От 1 до 10" value="3"></div>
+                    <div class="form-group"><label for="clothing_size"><i class="fas fa-tshirt"></i> Размер одежды участников</label><input type="text" id="clothing_size" name="clothing_size" placeholder="Например: 30, 32, S, M"></div>
+                    <div class="form-group"><label for="video_link"><i class="fas fa-video"></i> Ссылка на видео</label><input type="url" id="video_link" name="video_link" placeholder="https://drive.google.com/..."></div>
+                </div>
+                <div class="form-group full-width"><label for="participants_list"><i class="fas fa-list"></i> Список участников *</label><textarea id="participants_list" name="participants_list" required rows="5" placeholder="Иванов Иван, 6 лет, воспитанник ДОУ"></textarea></div>
+                <div class="form-actions"><button type="button" class="btn-prev" onclick="prevSection(2)"><i class="fas fa-arrow-left"></i> Назад</button><button type="button" class="btn-next" onclick="nextSection(2)">Далее <i class="fas fa-arrow-right"></i></button></div>
+            </div>
+            <div class="form-section" id="section3">
+                <h2 class="form-title"><i class="fas fa-paperclip"></i> Прикрепление документов</h2>
+                <div class="upload-instructions"><div class="instruction-item"><i class="fas fa-info-circle"></i><div><h4>Требования к файлам:</h4><ul><li>Форматы: PDF, DOC, DOCX, JPG, PNG</li><li>Максимальный размер: 5MB на файл</li><li>Максимум: 5 файлов</li></ul></div></div></div>
+                <div class="file-upload-area"><div class="file-upload-box" id="fileDropArea"><i class="fas fa-cloud-upload-alt"></i><h4>Перетащите файлы сюда</h4><p>или нажмите для выбора</p><input type="file" id="fileInput" name="files[]" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="file-input"></div><div class="file-list" id="fileList"></div></div>
+                <div class="required-docs"><h4><i class="fas fa-check-circle"></i> Обязательные документы:</h4><ul><li>Согласие на обработку персональных данных</li><li>Согласие на фото- и видеосъемку</li><li>Согласие на участие и сопровождение</li></ul><p class="small">Скачайте бланки в разделе <a href="documents.php">Документы</a></p></div>
+                <div class="form-actions"><button type="button" class="btn-prev" onclick="prevSection(3)"><i class="fas fa-arrow-left"></i> Назад</button><button type="button" class="btn-next" onclick="nextSection(3)">Далее <i class="fas fa-arrow-right"></i></button></div>
+            </div>
+            <div class="form-section" id="section4">
+                <h2 class="form-title"><i class="fas fa-check-circle"></i> Подтверждение заявки</h2>
+                <div class="review-data">
+                    <div class="review-section"><h4><i class="fas fa-user-tie"></i> Данные наставника</h4><div class="review-item"><span class="review-label">ФИО:</span><span id="reviewMentorName" class="review-value"></span></div><div class="review-item"><span class="review-label">Организация:</span><span id="reviewOrganization" class="review-value"></span></div><div class="review-item"><span class="review-label">Контакты:</span><span id="reviewContacts" class="review-value"></span></div></div>
+                    <div class="review-section"><h4><i class="fas fa-users"></i> Команда</h4><div class="review-item"><span class="review-label">Компетенция:</span><span id="reviewCompetence" class="review-value"></span></div><div class="review-item"><span class="review-label">Категория:</span><span id="reviewAgeCategory" class="review-value"></span></div><div class="review-item"><span class="review-label">Количество:</span><span id="reviewTeamSize" class="review-value"></span></div><div class="review-item"><span class="review-label">Участники:</span><span id="reviewParticipants" class="review-value"></span></div><div class="review-item"><span class="review-label">Видео:</span><span id="reviewVideoLink" class="review-value"></span></div></div>
+                    <div class="review-section"><h4><i class="fas fa-file"></i> Прикрепленные файлы</h4><div id="reviewFiles" class="review-files"><p class="no-files">Файлы не загружены</p></div></div>
+                </div>
+                <div class="agreement-check"><input type="checkbox" id="agreement" name="agreement" required><label for="agreement">Я подтверждаю, что ознакомлен(а) с <a href="documents.php" target="_blank">Положением о проведении Чемпионата</a> и даю согласие на обработку персональных данных.</label></div>
+                <div class="form-actions"><button type="button" class="btn-prev" onclick="prevSection(4)"><i class="fas fa-arrow-left"></i> Назад</button><button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Отправить заявку</button></div>
+            </div>
+        </form>
+        <div class="form-progress"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text"><span id="progressText">Шаг 1 из 4</span></div></div>
+    </div>
+</section>
+<div id="successModal" class="modal"><div class="modal-content glass-card"><div class="success-icon"><i class="fas fa-check-circle"></i></div><h3>Заявка успешно отправлена!</h3><p>Ваша заявка принята.</p><div class="success-details"><p><strong>Номер заявки:</strong> <span id="applicationNumber">YM</span></p><p><strong>Дата подачи:</strong> <span id="applicationDate">{{ now|date:"d.m.Y H:i" }}</span></p></div><div class="modal-actions"><button class="btn-modal" onclick="closeSuccessModal()">Закрыть</button><a href="index.php" class="btn-modal primary">На главную</a></div></div></div>
+{% endblock %}
+{% block extra_js %}
+<script>
+let uploadedFiles = [];
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('fileInput');
+    const fileDropArea = document.getElementById('fileDropArea');
+    const fileList = document.getElementById('fileList');
+    function formatFileSize(bytes) { if (bytes === 0) return '0 Bytes'; const k = 1024; const sizes = ['Bytes', 'KB', 'MB']; const i = Math.floor(Math.log(bytes) / Math.log(k)); return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]; }
+    function handleFiles(files) {
+        for (let file of files) {
+            if (file.size > 5 * 1024 * 1024) { alert(`Файл ${file.name} превышает 5MB`); continue; }
+            const ext = file.name.toLowerCase().split('.').pop();
+            if (!['pdf','doc','docx','jpg','jpeg','png'].includes(ext)) { alert(`Недопустимый тип файла: ${file.name}`); continue; }
+            uploadedFiles.push(file);
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `<div class="file-info"><i class="fas fa-file"></i><div><div class="file-name">${file.name}</div><div class="file-size">${formatFileSize(file.size)}</div></div></div><button type="button" class="remove-file" data-filename="${file.name}"><i class="fas fa-times"></i></button>`;
+            fileList.appendChild(fileItem);
+            fileItem.querySelector('.remove-file').addEventListener('click', function() { uploadedFiles = uploadedFiles.filter(f => f.name !== this.dataset.filename); fileItem.remove(); });
+        }
+        fileInput.value = '';
+    }
+    fileInput.addEventListener('change', function() { handleFiles(this.files); });
+    fileDropArea.addEventListener('dragover', e => { e.preventDefault(); fileDropArea.classList.add('highlight'); });
+    fileDropArea.addEventListener('dragleave', () => fileDropArea.classList.remove('highlight'));
+    fileDropArea.addEventListener('drop', e => { e.preventDefault(); fileDropArea.classList.remove('highlight'); handleFiles(e.dataTransfer.files); });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "championship/base.html" %}
+{% block title %}Контакты - {{ site.title }}{% endblock %}
+{% block description %}Контактная информация организаторов{% endblock %}
+{% block content %}
+<section class="hero-3d" style="background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9));">
+    <div class="container"><div class="hero-content"><div class="hero-tag"><i class="fas fa-envelope"></i> Свяжитесь с нами</div><h1 class="text-3d"><span class="text-3d-layer">КОНТАКТЫ</span><span class="text-3d-layer accent">ОРГАНИЗАТОРОВ</span></h1><p class="hero-subtitle">Получите ответы на все вопросы о проведении чемпионата</p></div></div>
+</section>
+<section class="contact-methods-section"><div class="container"><div class="section-header"><h2 class="section-title-3d">СПОСОБЫ СВЯЗИ</h2><p class="section-subtitle">Выберите удобный способ связи</p></div><div class="contact-methods-grid">
+    <div class="contact-method-card glass-card fade-in"><div class="method-icon"><i class="fas fa-phone"></i></div><h3>Телефон</h3><p>Позвоните нам для оперативного решения вопросов</p><div class="method-contacts"><a href="tel:{{ contacts.phone_tel }}" class="contact-link"><i class="fas fa-phone-alt"></i>{{ contacts.phone }}</a></div><div class="method-hours"><i class="fas fa-clock"></i>{{ contacts.working_hours }}</div></div>
+    <div class="contact-method-card glass-card fade-in delay-1"><div class="method-icon"><i class="fas fa-envelope"></i></div><h3>Электронная почта</h3><p>Напишите нам для получения подробной информации</p><div class="method-contacts"><a href="mailto:{{ contacts.email }}" class="contact-link"><i class="fas fa-envelope"></i>{{ contacts.email }}</a><a href="mailto:{{ contacts.org_email }}" class="contact-link"><i class="fas fa-users"></i>Оргкомитет: {{ contacts.org_email }}</a></div></div>
+    <div class="contact-method-card glass-card fade-in delay-2"><div class="method-icon"><i class="fas fa-map-marker-alt"></i></div><h3>Адрес</h3><p>Посетите нас лично</p><div class="method-address"><i class="fas fa-university"></i><div><strong>{{ organizer.name }}</strong><p>{{ contacts.address }}</p></div></div><a href="#map" class="btn-map"><i class="fas fa-map"></i> Посмотреть на карте</a></div>
+</div></div></section>
+<section class="faq-section"><div class="container"><div class="section-header"><h2 class="section-title-3d">ЧАСТЫЕ ВОПРОСЫ</h2></div><div class="faq-grid">
+    <div class="faq-item glass-card fade-in"><div class="faq-question"><h3>Кто может участвовать?</h3><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Воспитанники ДОУ 5-7 лет и обучающиеся 1-4, 5-8 классов образовательных организаций Чувашской Республики.</p></div></div>
+    <div class="faq-item glass-card fade-in delay-1"><div class="faq-question"><h3>Какие документы нужны?</h3><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Согласия на обработку персональных данных, фото-видеосъемку и участие. Бланки доступны в разделе <a href="documents.php">Документы</a>.</p></div></div>
+    <div class="faq-item glass-card fade-in delay-2"><div class="faq-question"><h3>Сколько стоит участие?</h3><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Участие в чемпионате бесплатное.</p></div></div>
+</div></div></section>
+<section class="contact-form-section" id="contactForm"><div class="container"><div class="section-header"><h2 class="section-title-3d">НАПИШИТЕ НАМ</h2><p class="section-subtitle">Задайте вопрос через форму обратной связи</p></div><div class="contact-form-wrapper glass-card">
+    <form id="contactFormElement" method="POST" action="send_contact.php">
+        <div class="form-row"><div class="form-group"><label for="contact_name"><i class="fas fa-user"></i> Ваше имя *</label><input type="text" id="contact_name" name="name" required placeholder="Иванов Иван Иванович"></div><div class="form-group"><label for="contact_email"><i class="fas fa-envelope"></i> Электронная почта *</label><input type="email" id="contact_email" name="email" required placeholder="example@mail.ru"></div></div>
+        <div class="form-group"><label for="contact_subject"><i class="fas fa-tag"></i> Тема сообщения *</label><select id="contact_subject" name="subject" required><option value="">-- Выберите тему --</option><option value="registration">Регистрация и документы</option><option value="competence">Вопросы по компетенциям</option><option value="schedule">Расписание и сроки</option><option value="technical">Технические вопросы</option><option value="other">Другое</option></select></div>
+        <div class="form-group"><label for="contact_message"><i class="fas fa-comment"></i> Ваш вопрос *</label><textarea id="contact_message" name="message" required rows="6" placeholder="Опишите ваш вопрос подробно..."></textarea></div>
+        <div class="form-actions"><button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Отправить сообщение</button></div>
+    </form>
+</div></div></section>
+<section class="map-section" id="map"><div class="container"><div class="section-header"><h2 class="section-title-3d">КАК НАС НАЙТИ</h2></div><div class="map-wrapper glass-card"><div class="map-placeholder"><i class="fas fa-map-marked-alt"></i><h3>{{ organizer.name }}</h3><p>г. Чебоксары, ул. Декабристов, д. 17</p></div><div class="map-container"><iframe src="https://www.google.com/maps?q=56.137657,47.284831&hl=ru&z=17&output=embed" width="100%" height="400" style="border:0;" loading="lazy"></iframe></div></div></div></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.faq-question').forEach(question => question.addEventListener('click', function() {
+        const item = this.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const icon = this.querySelector('i');
+        item.classList.toggle('active');
+        answer.style.maxHeight = item.classList.contains('active') ? answer.scrollHeight + 'px' : null;
+        icon.classList.toggle('fa-chevron-up');
+        icon.classList.toggle('fa-chevron-down');
+    }));
+    const contactForm = document.getElementById('contactFormElement');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('.btn-submit');
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+        fetch('send_contact.php', { method: 'POST', body: new FormData(this) })
+            .then(response => response.json())
+            .then(data => { showNotification(data.message || 'Сообщение отправлено', data.success ? 'success' : 'error'); if (data.success) contactForm.reset(); })
+            .catch(() => showNotification('Произошла ошибка при отправке сообщения.', 'error'))
+            .finally(() => { btn.disabled = false; btn.innerHTML = original; });
+    });
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i><span>${message}</span><button class="close-notification">&times;</button>`;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.classList.add('show'), 10);
+        setTimeout(() => { notification.classList.remove('show'); setTimeout(() => notification.remove(), 300); }, 5000);
+        notification.querySelector('.close-notification').addEventListener('click', () => notification.remove());
+    }
+});
+</script>
+{% endblock %}

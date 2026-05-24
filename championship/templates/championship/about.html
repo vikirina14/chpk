@@ -1,0 +1,25 @@
+{% extends "championship/base.html" %}
+{% block title %}О чемпионате - {{ site.title }}{% endblock %}
+{% block description %}Подробная информация о I Региональном Чемпионате молодых мастеров{% endblock %}
+{% block content %}
+<section class="hero-3d" style="background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9));">
+    <div class="container"><div class="hero-content"><div class="hero-tag"><i class="fas fa-info-circle"></i> Подробная информация</div><h1 class="text-3d"><span class="text-3d-layer">О</span><span class="text-3d-layer accent">ЧЕМПИОНАТЕ</span></h1><p class="hero-subtitle">Вся информация о I Региональном Чемпионате молодых мастеров Чувашской Республики</p></div></div>
+</section>
+<section class="about-content">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-card glass-card fade-in"><div class="about-icon"><i class="fas fa-bullseye"></i></div><h3>Цель чемпионата</h3><p>Создание условий для формирования ранней профориентации и современных профессиональных компетенций у детей дошкольного и младшего школьного возраста.</p></div>
+            <div class="about-card glass-card fade-in delay-1"><div class="about-icon"><i class="fas fa-tasks"></i></div><h3>Задачи</h3><ul class="about-list"><li>Воспитание положительного отношения к миру профессий</li><li>Формирование первичного профессионального опыта</li><li>Повышение педагогического мастерства наставников</li><li>Развитие командной работы</li></ul></div>
+            <div class="about-card glass-card fade-in delay-2"><div class="about-icon"><i class="fas fa-users"></i></div><h3>Участники</h3><p>Воспитанники ДОУ 5-7 лет и обучающиеся 1-4, 5-8 классов образовательных организаций Чувашской Республики.</p><div class="age-categories"><span class="age-badge">ДОУ</span><span class="age-badge">1-4 класс</span><span class="age-badge">5-8 класс</span></div></div>
+            <div class="about-card glass-card fade-in delay-3"><div class="about-icon"><i class="fas fa-award"></i></div><h3>Награждение</h3><p>По итогам чемпионата по каждой компетенции присуждаются призовые места и номинации.</p></div>
+        </div>
+    </div>
+</section>
+<section class="detailed-timeline"><div class="container"><div class="section-header"><h2 class="section-title-3d">ПОДРОБНАЯ ХРОНОЛОГИЯ</h2><p class="section-subtitle">Все этапы чемпионата</p></div><div class="timeline-detailed">
+    <div class="timeline-phase glass-card fade-in"><div class="phase-header"><div class="phase-number">I</div><div class="phase-title"><h3>ОТБОРОЧНЫЙ ЭТАП</h3><div class="phase-date">22.12.2025 - 16.01.2026</div></div></div><div class="phase-content"><div class="phase-item"><h4><i class="fas fa-user-graduate"></i> Профориентационная работа</h4><p>Проведение профориентационных мероприятий и внутреннего отбора команд.</p></div></div></div>
+    <div class="timeline-phase glass-card fade-in delay-1"><div class="phase-header"><div class="phase-number">II</div><div class="phase-title"><h3>ДИСТАНЦИОННЫЙ ЭТАП</h3><div class="phase-date">19.01 - 21.02.2026</div></div></div><div class="phase-content"><div class="phase-item"><h4><i class="fas fa-laptop-code"></i> Выполнение заданий</h4><p>Команды выполняют дистанционные конкурсные задания по выбранным компетенциям.</p></div></div></div>
+    <div class="timeline-phase glass-card fade-in delay-2"><div class="phase-header"><div class="phase-number">III</div><div class="phase-title"><h3>ФИНАЛЬНЫЙ ЭТАП</h3><div class="phase-date">23 - 27.03.2026</div></div></div><div class="phase-content"><div class="phase-item"><h4><i class="fas fa-medal"></i> Очный финал</h4><p>Практические задания и церемония награждения на базе колледжа.</p></div></div></div>
+</div></div></section>
+<section class="committee-section"><div class="container"><div class="section-header"><h2 class="section-title-3d">ОРГАНИЗАЦИОННЫЙ КОМИТЕТ</h2></div><div class="committee-grid">{% for member in committee %}<div class="member-card glass-card fade-in"><div class="member-avatar"><i class="fas fa-user-tie"></i></div><h4>{{ member.name }}</h4><p class="member-position">{{ member.position }}</p></div>{% endfor %}</div></div></section>
+<section class="cta-section"><div class="container"><div class="cta-card glass-card"><div class="cta-content"><h2>ГОТОВЫ УЧАСТВОВАТЬ?</h2><p>Ознакомьтесь с документами и подайте заявку.</p><div class="cta-buttons"><a href="documents.php" class="btn-pulse"><i class="fas fa-file-alt"></i><span>ДОКУМЕНТЫ</span><div class="pulse-effect"></div></a><a href="application.php" class="btn-outline"><i class="fas fa-rocket"></i><span>РЕГИСТРАЦИЯ</span></a></div></div></div></div></section>
+{% endblock %}

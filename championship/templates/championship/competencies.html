@@ -1,0 +1,57 @@
+{% extends "championship/base.html" %}
+{% load championship_extras %}
+{% block title %}Компетенции - {{ site.title }}{% endblock %}
+{% block description %}4 направления для профессионального роста и развития{% endblock %}
+{% block content %}
+<section class="hero-3d" style="background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9));">
+    <div class="container"><div class="hero-content"><div class="hero-tag"><i class="fas fa-cogs"></i> Направления развития</div><h1 class="text-3d"><span class="text-3d-layer">КОМПЕТЕНЦИИ</span><span class="text-3d-layer accent">БУДУЩЕГО</span></h1><p class="hero-subtitle">4 направления для профессионального роста и развития юных мастеров</p></div></div>
+</section>
+<section class="competencies-grid-section">
+    <div class="container">
+        <div class="section-header"><h2 class="section-title-3d">ВЫБЕРИ СВОЮ ДОРОГУ</h2><p class="section-subtitle">Каждая компетенция раскрывает таланты и дает практические навыки</p></div>
+        <div class="competencies-grid">
+            {% for name, comp in competencies.items %}
+            <div class="competency-card glass-card fade-in {% if name == 'Обслуживание автомобилей' %}center-card{% endif %}">
+                <div class="competency-header" style="background: linear-gradient(135deg, {{ comp.color }}, {{ comp.darker_color }});">
+                    <div class="competency-icon"><i class="fas {{ comp.icon }}"></i></div>
+                    <h3>{{ name }}</h3>
+                    <div class="competency-ages">{% for age in comp.ages %}<span class="age-tag">{{ age }}</span>{% endfor %}</div>
+                </div>
+                <div class="competency-body">
+                    <div class="competency-experts"><h4><i class="fas fa-user-tie"></i> Эксперты:</h4><ul>{% for expert in comp.experts %}<li>{{ expert }}</li>{% endfor %}</ul></div>
+                    <div class="competency-description"><h4><i class="fas fa-info-circle"></i> Описание:</h4><p>{{ comp.description }}</p></div>
+                    <div class="competency-skills"><h4><i class="fas fa-star"></i> Формируемые навыки:</h4><div class="skills-tags">{% for skill in comp.skills %}<span class="skill-tag">{{ skill }}</span>{% endfor %}</div></div>
+                    <div class="competency-results-tasks">
+                        <h4><i class="fas fa-tasks"></i> Конкурсные задания:</h4>
+                        <div class="tasks-info">
+                            <div class="task-stage"><h5><i class="fas fa-laptop-code"></i> Дистанционный этап</h5><p>Задания по {{ name }} включают выполнение практических задач.</p><div class="materials-links"><h6><i class="fas fa-download"></i> Материалы:</h6>{% for age, file in comp.remote_stage_materials.items %}<div class="material-link"><a href="{{ file }}" target="_blank"><i class="fas {{ file|file_icon }}"></i><span>Задания для {{ age }}</span></a></div>{% endfor %}</div></div>
+                            <div class="task-stage"><h5><i class="fas fa-flag-checkered"></i> Финальный этап</h5><p>Финальные задания направлены на применение навыков в реальных условиях.</p><div class="materials-links"><h6><i class="fas fa-download"></i> Материалы:</h6>{% for age, file in comp.final_stage_materials.items %}<div class="material-link"><a href="{{ file }}" target="_blank"><i class="fas {{ file|file_icon }}"></i><span>Задания для {{ age }}</span></a></div>{% endfor %}</div></div>
+                        </div>
+                    </div>
+                    <a href="application.php?competence={{ name|urlencode }}" class="competency-choose"><i class="fas fa-check-circle"></i><span>ВЫБРАТЬ ЭТУ КОМПЕТЕНЦИЮ</span></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="detailed-competencies">
+    <div class="container">
+        <div class="section-header"><h2 class="section-title-3d">ПОДРОБНО О КАЖДОЙ КОМПЕТЕНЦИИ</h2><p class="section-subtitle">Что предстоит делать участникам на каждом этапе</p></div>
+        <div class="competency-details">
+            {% for name, details in competency_details.items %}
+            {% with comp=competencies|get_item:name %}
+            <div class="competency-detail-card glass-card fade-in">
+                <div class="detail-header" style="border-left-color: {{ comp.color }};"><h3>{{ name }}</h3><div class="detail-badge" style="background: {{ comp.color }};"><i class="fas {{ comp.icon }}"></i></div></div>
+                <div class="detail-content">
+                    <div class="detail-column"><h4><i class="fas fa-info-circle"></i> Описание компетенции</h4><p>{{ details.description }}</p><h4><i class="fas fa-tasks"></i> Задачи участников</h4><ul class="detail-list">{% for task in details.tasks %}<li><i class="fas fa-check"></i> {{ task }}</li>{% endfor %}</ul></div>
+                    <div class="detail-column"><h4><i class="fas fa-clipboard-check"></i> Критерии оценки</h4><ul class="detail-list">{% for criterion in details.criteria %}<li><i class="fas fa-star"></i> {{ criterion }}</li>{% endfor %}</ul><h4><i class="fas fa-tools"></i> Оборудование</h4><p>{{ details.equipment }}</p><h4><i class="fas fa-user-check"></i> Требования</h4><p>{{ details.requirements }}</p></div>
+                </div>
+            </div>
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="cta-section"><div class="container"><div class="cta-card glass-card"><div class="cta-content"><h2>ВЫБРАЛИ КОМПЕТЕНЦИЮ?</h2><p>Переходите к регистрации команды.</p><div class="cta-buttons"><a href="application.php" class="btn-pulse"><i class="fas fa-user-plus"></i><span>ЗАРЕГИСТРИРОВАТЬ КОМАНДУ</span><div class="pulse-effect"></div></a><a href="documents.php" class="btn-outline"><i class="fas fa-book"></i><span>ДОКУМЕНТЫ</span></a></div></div></div></div></section>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "championship/base.html" %}
+{% load championship_extras %}
+{% block title %}Документы - {{ site.title }}{% endblock %}
+{% block description %}Официальные документы и бланки для участия{% endblock %}
+{% block content %}
+<section class="hero-3d" style="background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9));">
+    <div class="container"><div class="hero-content"><div class="hero-tag"><i class="fas fa-folder-open"></i> Официальные документы</div><h1 class="text-3d"><span class="text-3d-layer">ВСЯ</span><span class="text-3d-layer accent">ДОКУМЕНТАЦИЯ</span></h1><p class="hero-subtitle">Скачайте необходимые документы для участия в чемпионате.</p></div></div>
+</section>
+<section class="documents-nav"><div class="container"><div class="nav-tabs">{% for category, items in documents.items %}<button class="nav-tab {% if forloop.first %}active{% endif %}" data-tab="{{ category }}"><i class="fas {% if category == 'forms' %}fa-edit{% else %}fa-landmark{% endif %}"></i><span>{{ document_titles|get_item:category }}</span></button>{% endfor %}</div></div></section>
+<section class="documents-sections"><div class="container">
+    {% for category, items in documents.items %}
+    <div id="{{ category }}" class="documents-section {% if forloop.first %}active{% endif %}">
+        <div class="section-header"><h2 class="section-title">{{ document_titles|get_item:category }}</h2><p class="section-subtitle">{{ document_subtitles|get_item:category }}</p></div>
+        <div class="documents-grid">
+            {% for doc in items %}
+            <div class="document-card glass-card fade-in">
+                <div class="document-header"><div class="document-icon"><i class="fas {{ doc.icon }}"></i></div><div class="document-info"><h3>{{ doc.title }}</h3><p>{{ doc.description }}</p><div class="document-meta"><span><i class="fas fa-calendar"></i> {{ doc.date }}</span><span><i class="fas fa-weight"></i> {{ doc.size }}</span><span><i class="fas fa-copy"></i> {{ doc.pages }} стр.</span></div></div></div>
+                <div class="document-actions"><button class="btn-preview" onclick="previewDocument('{{ doc.id }}', '{{ doc.title|escapejs }}', '{{ doc.file|escapejs }}')"><i class="fas fa-eye"></i><span>Предпросмотр</span></button><a href="documents/{{ doc.file }}" class="btn-download" download><i class="fas fa-download"></i><span>Скачать</span></a></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div></section>
+<section class="important-notes"><div class="container"><div class="notes-grid"><div class="note-card glass-card"><i class="fas fa-info-circle"></i><h3>Перед подачей заявки</h3><p>Скачайте и заполните все согласия, затем приложите их в форме регистрации.</p></div><div class="note-card glass-card"><i class="fas fa-file-upload"></i><h3>Форматы файлов</h3><p>PDF, DOC, DOCX, JPG и PNG до 5MB на файл.</p></div></div></div></section>
+<div id="previewModal" class="modal"><div class="modal-content glass-card"><div class="modal-header"><h3 id="modalTitle">Документ</h3><button class="close-modal">&times;</button></div><div class="modal-body"><div class="preview-placeholder"><i class="fas fa-file-pdf"></i><p class="small">Для просмотра полной версии скачайте документ</p></div></div><div class="modal-footer"><a href="#" id="downloadLink" class="btn-download"><i class="fas fa-download"></i><span>СКАЧАТЬ ПОЛНУЮ ВЕРСИЮ</span></a></div></div></div>
+{% endblock %}
+{% block extra_js %}
+<script>
+function previewDocument(docId, docTitle, fileName) {
+    const modal = document.getElementById('previewModal');
+    const title = document.getElementById('modalTitle');
+    const downloadLink = document.getElementById('downloadLink');
+    const modalBody = document.querySelector('.modal-body');
+    const filePath = fileName.startsWith('materials/') ? fileName : 'documents/' + fileName;
+    title.textContent = docTitle;
+    downloadLink.href = filePath;
+    const ext = fileName.split('.').pop().toLowerCase();
+    if (ext === 'pdf') {
+        modalBody.innerHTML = `<iframe src="${filePath}" style="width:100%;height:500px;border:none;"></iframe>`;
+    } else {
+        modalBody.innerHTML = `<div class="file-preview-info"><i class="fas fa-file fa-3x" style="color: var(--primary); margin-bottom: 20px;"></i><h4>${fileName}</h4><p>Для просмотра скачайте файл.</p></div>`;
+    }
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.nav-tab').forEach(tab => tab.addEventListener('click', function() {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.documents-section').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(this.dataset.tab).classList.add('active');
+    }));
+    const modal = document.getElementById('previewModal');
+    document.querySelector('.close-modal').addEventListener('click', () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; });
+});
+</script>
+{% endblock %}

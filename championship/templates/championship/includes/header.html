@@ -1,0 +1,34 @@
+<div class="floating-notification" role="alert" aria-live="polite">
+    <i class="fas fa-bell" aria-hidden="true"></i>
+    <span>Регистрация открыта с 16 января 2026!</span>
+    <a href="application.php" class="notification-btn" aria-label="Перейти к регистрации">Участвовать</a>
+    <button class="close-notification" aria-label="Закрыть уведомление">&times;</button>
+</div>
+
+<header class="glass-header">
+    <div class="container">
+        <nav class="nav-container">
+            <a href="index.php" class="logo-3d" aria-label="Главная страница чемпионата YoungMasters">
+                <div class="logo-shape" aria-hidden="true"><i class="fas fa-crown"></i></div>
+                <div class="logo-text">
+                    <span class="logo-main">YoungMasters</span>
+                    <span class="logo-sub">Чемпионат 2026</span>
+                </div>
+            </a>
+            <div class="menu-toggle" role="button" tabindex="0" aria-label="Меню навигации" aria-expanded="false">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.php" class="{% if current_page == 'index.php' %}active{% endif %}"><i class="fas fa-home"></i> <span>Главная</span></a></li>
+                <li><a href="about.php" class="{% if current_page == 'about.php' %}active{% endif %}"><i class="fas fa-flag"></i> <span>О чемпионате</span></a></li>
+                <li><a href="competencies.php" class="{% if current_page == 'competencies.php' %}active{% endif %}"><i class="fas fa-cogs"></i> <span>Компетенции</span></a></li>
+                <li><a href="documents.php" class="{% if current_page == 'documents.php' %}active{% endif %}"><i class="fas fa-file-alt"></i> <span>Документы</span></a></li>
+                <li><a href="contacts.php" class="{% if current_page == 'contacts.php' %}active{% endif %}"><i class="fas fa-envelope"></i> <span>Контакты</span></a></li>
+                <li><a href="application.php" class="btn-neon {% if current_page == 'application.php' %}active{% endif %}"><i class="fas fa-rocket"></i> <span>Подать заявку</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="header-spacer"></div>

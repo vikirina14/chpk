@@ -1,0 +1,82 @@
+{% extends "championship/base.html" %}
+{% block title %}{{ site.title }} - Главная{% endblock %}
+{% block content %}
+<section class="hero-3d" aria-labelledby="hero-title">
+    <header class="hero-header" role="banner">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-tag"><i class="fas fa-star"></i> I Региональный Чемпионат</div>
+            <h1 class="text-3d">
+                <span class="text-3d-layer">СТАНЬ</span>
+                <span class="text-3d-layer accent">ГЕРОЕМ</span>
+                <span class="text-3d-layer">БУДУЩЕГО</span>
+            </h1>
+            <p class="hero-subtitle">Открой в себе суперсилы! Создавай, проектируй, программируй и побеждай в самом масштабном детском чемпионате Чувашии</p>
+            <div class="hero-stats">
+                <div class="stat-item"><div class="stat-number" data-count="4">0</div><div class="stat-label">Компетенции</div></div>
+                <div class="stat-item"><div class="stat-number" data-count="3">0</div><div class="stat-label">Возрастные группы</div></div>
+                <div class="stat-item"><div class="stat-number" data-count="500">0+</div><div class="stat-label">Участников</div></div>
+                <div class="stat-item"><div class="stat-number" data-count="50">0+</div><div class="stat-label">Школ и садов</div></div>
+            </div>
+            <div class="hero-buttons">
+                <a href="application.php" class="btn-3d"><i class="fas fa-play"></i><span>СТАРТОВАТЬ СЕЙЧАС</span><div class="btn-reflection"></div></a>
+                <a href="documents/Алгоритм.pdf" class="btn-glass" target="_blank"><i class="fas fa-list-ol"></i><span>АЛГОРИТМ ПОДАЧИ ЗАЯВКИ</span></a>
+            </div>
+        </div>
+        <div class="hero-illustration">
+            <div class="floating-cards">
+                {% for name, comp in competencies.items %}
+                <div class="card-3d">
+                    <div class="card-content">
+                        <div class="card-icon" style="background: linear-gradient(135deg, {{ comp.color }}, {{ comp.darker_color }});"><i class="fas {{ comp.icon }}"></i></div>
+                        <h4>{{ name }}</h4>
+                        <p>{{ comp.short }}</p>
+                        <div class="card-badge">{{ comp.ages_join }}</div>
+                    </div>
+                    <div class="card-shadow"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    </header>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <div class="section-header"><h2 class="section-title-3d">ПОЧЕМУ ЭТО НУЖНО ТВОЕМУ РЕБЕНКУ?</h2><p class="section-subtitle">Развиваем навыки будущего через игру и практику</p></div>
+        <div class="features-grid">
+            <div class="feature-card glass-card fade-in"><div class="feature-icon"><i class="fas fa-brain"></i></div><h3>Профориентация с детства</h3><p>Помогаем детям узнать свои сильные стороны и выбрать путь развития в раннем возрасте</p></div>
+            <div class="feature-card glass-card fade-in delay-1"><div class="feature-icon"><i class="fas fa-hands-helping"></i></div><h3>Командная работа</h3><p>Учим работать в команде, распределять задачи и достигать общих целей вместе</p></div>
+            <div class="feature-card glass-card fade-in delay-2"><div class="feature-icon"><i class="fas fa-lightbulb"></i></div><h3>Креативное мышление</h3><p>Развиваем нестандартный подход к решению задач и генерацию инновационных идей</p></div>
+            <div class="feature-card glass-card fade-in delay-3"><div class="feature-icon"><i class="fas fa-tools"></i></div><h3>Практические навыки</h3><p>Работа с реальным оборудованием и инструментами профессионалов</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="timeline-section">
+    <div class="container">
+        <div class="section-header"><h2 class="section-title-3d">ДОРОГА К ПОБЕДЕ</h2><p class="section-subtitle">3 этапа путешествия в мир профессий</p></div>
+        <div class="timeline">
+            <div class="timeline-item glass-card fade-in"><div class="timeline-marker">1</div><div class="timeline-content"><div class="timeline-header"><h3><i class="fas fa-search"></i> ОТБОРОЧНЫЙ ЭТАП</h3><div class="timeline-date">22 ДЕК 2025 - 20 ЯНВ 2026</div></div><ul class="timeline-list"><li><i class="fas fa-check"></i> Профориентация в детских садах и школах</li><li><i class="fas fa-check"></i> Выбор направлений для участия</li><li><i class="fas fa-check"></i> Внутренний отбор в образовательных организациях</li></ul></div></div>
+            <div class="timeline-item glass-card fade-in delay-1"><div class="timeline-marker">2</div><div class="timeline-content"><div class="timeline-header"><h3><i class="fas fa-laptop-code"></i> ДИСТАНЦИОННЫЙ ЭТАП</h3><div class="timeline-date">19 ЯНВ - 21 ФЕВ 2026</div></div><ul class="timeline-list"><li><i class="fas fa-check"></i> Подача заявок на участие</li><li><i class="fas fa-check"></i> Выполнение онлайн-заданий</li><li><i class="fas fa-check"></i> Оценка экспертами</li></ul></div></div>
+            <div class="timeline-item glass-card fade-in delay-2"><div class="timeline-marker">3</div><div class="timeline-content"><div class="timeline-header"><h3><i class="fas fa-trophy"></i> ФИНАЛЬНЫЙ ЭТАП</h3><div class="timeline-date">23 - 27 МАР 2026</div></div><ul class="timeline-list"><li><i class="fas fa-check"></i> Очные конкурсные задания</li><li><i class="fas fa-check"></i> Работа на площадке колледжа</li><li><i class="fas fa-check"></i> Награждение победителей</li></ul></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card glass-card">
+            <div class="cta-content">
+                <h2>ГОТОВЫ К СТАРТУ?</h2>
+                <p>Выберите компетенцию и подайте заявку на участие вашей команды</p>
+                <div class="cta-buttons">
+                    <a href="application.php" class="btn-pulse"><i class="fas fa-rocket"></i><span>ПОДАТЬ ЗАЯВКУ</span><div class="pulse-effect"></div></a>
+                    <a href="documents.php" class="btn-outline"><i class="fas fa-file-alt"></i><span>ДОКУМЕНТЫ</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
